@@ -1,0 +1,33 @@
+/client/node_modules
+/server/.env
+/client/vite.config.js
+/client/tailwind.config.js
+/client/postcss.config.js
+/client/package.json
+/client/package-lock.json
+/client/src/images
+
+# VSCode
+.vscode
+
+# Node.js
+node_modules
+
+
+client/node_modules/.bin/sucrase-node
+client/node_modules/.bin/sucrase-node.cmd
+client/node_modules/.bin/sucrase-node.ps1
+client/node_modules/.bin/sucrase.cmd
+client/node_modules/.bin/sucrase.ps1
+client/node_modules/.bin/tailwind
+client/node_modules/.bin/tailwind.cmd
+client/node_modules/.bin/tailwind.ps1
+client/node_modules/.bin/tailwindcss
+client/node_modules/.bin/tailwindcss.cmd
+client/node_modules/.bin/tailwindcss.ps1
+client/node_modules/.bin/update-browserslist-db
+client/node_modules/.bin/update-browserslist-db.cmd
+client/node_modules/.bin/update-browserslist-db.ps1
+client/node_modules/.bin/vite
+client/node_modules/.bin/vite.cmd
+client/node_modules/.bin/vite.ps1
