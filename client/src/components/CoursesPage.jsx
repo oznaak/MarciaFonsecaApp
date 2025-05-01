@@ -41,11 +41,22 @@ const CoursesPage = () => {
               >
                 {/* Thumbnail with badges */}
                 <div className="relative h-40 w-full">
-                  <img src={course.thumbnail || doctorProfile} alt={course.title} className="w-full h-full object-cover" />
-                  {course.discount > 0 && (
+                  <img
+                    src={course.thumbnail || doctorProfile}
+                    alt={course.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {course.category && (
                     <div className="absolute top-2 left-2">
-                      <span className="bg-white text-xs font-medium px-2 py-1 rounded-full">
-                        {course.discount}% OFF
+                      <span className="bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                        {course.category}
+                      </span>
+                    </div>
+                  )}
+                  {course.discount > 0 && (
+                    <div className="absolute top-2 right-2">
+                      <span className="bg-gradient-to-br from-[#DEA54B]/90 to-[#D27D2D]/80 text-white text-xs font-semibold px-2 py-1 rounded">
+                        {course.discount}% DESCONTO
                       </span>
                     </div>
                   )}
@@ -53,18 +64,41 @@ const CoursesPage = () => {
                 {/* Course info */}
                 <div className="p-4">
                   <h3 className="text-lg font-bold text-gray-900 mb-2">{course.title}</h3>
-                  <p className="text-sm text-gray-600 mb-4 leading-relaxed">{course.description}</p>
-                  <div className="flex items-center mb-4">
-                    <span className="text-yellow-400 mr-2">{'★'.repeat(Math.floor(course.rating))}</span>
-                    <span className="text-sm text-gray-500">{course.rating.toFixed(1)}</span>
+                  <div className="flex items-center text-sm text-gray-600 mb-4">
+                    <span className="mr-4">📚 {course.lessonsCount || 0} Aulas</span>
+                    <span>⏰ {Math.floor(course.duration / 60)}h {course.duration % 60}m</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-semibold text-gray-900">${course.price.toFixed(2)}</span>
-                    {course.previousPrice > 0 && (
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xl font-semibold text-gray-900">€{course.price.toFixed(2)}</span>
+                    {course.discount > 0 && (
                       <span className="text-sm text-gray-500 line-through">
-                        ${course.previousPrice.toFixed(2)}
+                        €{(course.price / (1 - course.discount / 100)).toFixed(2)}
                       </span>
                     )}
+                  </div>
+                  <div className="flex items-center">
+                    <img
+                      src={course.instructorImage || doctorProfile}
+                      alt={course.instructor}
+                      className="w-8 h-8 rounded-full object-cover mr-2"
+                    />
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-gray-900">{course.instructor}</p>
+                      <div className="ml-9 flex items-center">
+                        {[...Array(5)].map((_, index) => (
+                          <svg
+                            key={index}
+                            xmlns="http://www.w3.org/2000/svg"
+                            className={`h-4 w-4 ${index < Math.floor(course.rating) ? 'text-yellow-400' : 'text-gray-400'}`}
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.869 1.4-8.168L.132 9.21l8.2-1.192z" />
+                          </svg>
+                        ))}
+                        <span className="text-sm text-gray-500 ml-1">({course.rating.toFixed(1)})</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Link>
@@ -76,4 +110,4 @@ const CoursesPage = () => {
   );
 };
 
-export default CoursesPage; 
+export default CoursesPage;

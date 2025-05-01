@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import logoGold from '../images/mf_gold.png';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,12 +33,13 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#DEA54B]/90 to-[#D27D2D]/80 flex items-center justify-center text-white font-bold text-xl">
+            {/*<div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#DEA54B]/90 to-[#D27D2D]/80 flex items-center justify-center text-white font-bold text-xl">
               MF
             </div>
             <span className="text-xl font-bold bg-gradient-to-br from-[#DEA54B]/90 to-[#D27D2D]/80 bg-clip-text text-transparent">
               Márcia Fonseca
-            </span>
+            </span>*/}
+            <img src={logoGold} alt="Logo" className="h-16" /> {/* Replace with your logo image path */}
           </Link>
 
           {/* Desktop Navigation */}
@@ -144,4 +146,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation; 
+export default Navigation;

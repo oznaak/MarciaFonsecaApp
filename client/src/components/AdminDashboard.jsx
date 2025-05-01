@@ -12,7 +12,7 @@ const AdminDashboard = () => {
   // Courses state
   const [courses, setCourses] = useState([]);
   // initial state for a new course including extra fields and lessons
-  const initialCourseState = { title: '', studentDescription: '', description: '', instructor: '', price: '', thumbnail: '', discount: '', previousPrice: '', lessons: [] };
+  const initialCourseState = { title: '', studentDescription: '', description: '', instructor: '', price: '', thumbnail: '', discount: '', previousPrice: '', lessons: [], duration: '' };
   const [newCourse, setNewCourse] = useState(initialCourseState);
   const [showAddCourse, setShowAddCourse] = useState(false);
 
@@ -181,6 +181,16 @@ const AdminDashboard = () => {
                             <label className="block text-sm font-medium text-gray-700">Desconto (%)</label>
                             <input type="number" value={newCourse.discount} onChange={e => setNewCourse({ ...newCourse, discount: e.target.value })} className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500" />
                           </div>
+                        </div>
+                        {/* Duration */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">Duração (em minutos)</label>
+                          <input
+                            type="number"
+                            value={newCourse.duration}
+                            onChange={e => setNewCourse({ ...newCourse, duration: e.target.value })}
+                            className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500"
+                          />
                         </div>
                         {/* Lessons */}
                         <div>

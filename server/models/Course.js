@@ -19,9 +19,10 @@ const CourseSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   thumbnail: { type: String },
   discount: { type: Number, default: 0 },
+  duration: { type: Number, default: 0 },
   lessons: [LessonSchema],
   enrolledStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Course', CourseSchema); 
+module.exports = mongoose.model('Course', CourseSchema);

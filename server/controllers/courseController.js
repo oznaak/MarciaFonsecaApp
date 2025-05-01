@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 exports.getCourses = async (req, res) => {
   try {
     const courses = await Course.find()
-      .select('title description rating price discount previousPrice thumbnail studentDescription')
+      .select('title description rating price discount previousPrice thumbnail studentDescription lessons instructor duration')
       .lean();
     const formatted = courses.map(c => ({
       id: c._id,
@@ -16,7 +16,10 @@ exports.getCourses = async (req, res) => {
       discount: c.discount,
       previousPrice: c.previousPrice,
       thumbnail: c.thumbnail,
-      studentDescription: c.studentDescription
+      studentDescription: c.studentDescription,
+      lessonsCount: c.lessons?.length || 0, // Include the number of lessons
+      instructor: c.instructor,
+      duration: c.duration
     }));
     res.json(formatted);
   } catch (err) {
@@ -78,4 +81,4 @@ exports.enrollCourse = async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Enrollment failed' });
   }
-}; 
+};

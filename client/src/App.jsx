@@ -13,6 +13,8 @@ import RequireNoAuth from './components/RequireNoAuth';
 import UserDashboard from './components/UserDashboard';
 import Footer from './components/Footer';
 import NotFound from './components/NotFound';
+import TermsOfUse from './components/TermsOfUse';
+import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import './styles/App.css';
 
 const App = () => {
@@ -29,6 +31,8 @@ const App = () => {
           <Route path="/login" element={<RequireNoAuth><LoginPage /></RequireNoAuth>} />
           <Route path="/register" element={<RequireNoAuth><RegisterPage /></RequireNoAuth>} />
           <Route path="/userDashboard" element={<RequireAuth><UserDashboard /></RequireAuth>} />
+          <Route path="/terms-of-use" element={<TermsOfUse />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
@@ -37,4 +41,4 @@ const App = () => {
   );
 };
 
-export default App; 
+export default App;

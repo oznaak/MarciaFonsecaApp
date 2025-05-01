@@ -75,7 +75,13 @@ const CourseDetailPage = () => {
     return Math.round((completedCount / course.lessons.length) * 100);
   };
 
+  const calculatePreviousPrice = () => {
+    if (!course || !course.price || !course.discount) return null;
+    return (course.price / (1 - course.discount / 100)).toFixed(2);
+  };
+
   const progress = calculateProgress();
+  const previousPrice = calculatePreviousPrice();
 
   const moveToNextLesson = () => {
     if (selectedLesson < course.lessons.length - 1) {
@@ -123,14 +129,11 @@ const CourseDetailPage = () => {
   useEffect(() => {
     if (enrolled) {
       setActiveTab('lessons');
+    } else {
+      setActiveTab('description');
     }
   }, [enrolled]);
 
-  useEffect(() => {
-    if (selectedLesson !== null) {
-      setActiveTab('lessons');
-    }
-  }, [selectedLesson]);
 
   const handleCheckout = async () => {
     const token = localStorage.getItem('token');
@@ -200,28 +203,28 @@ const CourseDetailPage = () => {
             {/* Sidebar */}
             <div className="bg-white p-6 rounded-lg shadow space-y-4">
               <div className="text-left space-y-2">
-                  <div>
-                      <span className="text-black-500 text-xl font-bold">
-                          {course.title}
-                      </span>
-                  </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-black-500 text-xl font-bold">
+                    {course.title}
+                  </span>
+                  {!enrolled && course.discount > 0 && (
+                    <span className="bg-gradient-to-br from-[#DEA54B]/90 to-[#D27D2D]/80 text-white text-xs font-semibold px-2 py-1 rounded">
+                      {course.discount}% DESCONTO
+                    </span>
+                  )}
+                </div>
                 { !enrolled && (
                   <>
-                    {course.previousPrice > 0 && (
+                    {previousPrice > 0 && (
                       <div>
-                        <span className="text-gray-500 line-through text-sm">
-                          ${course.previousPrice.toFixed(2)}
+                        <span className="text-gray-500 line-through text-lg">
+                          €{previousPrice}
                         </span>
                       </div>
                     )}
                     <div className="text-2xl font-bold text-gray-900">
-                      ${course.price.toFixed(2)}
+                      €{course.price.toFixed(2)}
                     </div>
-                    {course.discount > 0 && (
-                      <span className="bg-purple-600 text-white text-xs font-semibold px-2 py-1 rounded">
-                        {course.discount}% OFF
-                      </span>
-                    )}
                   </>
                 )}
               </div>
@@ -234,12 +237,23 @@ const CourseDetailPage = () => {
                 </button>
               )}
               {!enrolled && (
-                <button className="w-full py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="inline h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                  </svg>
-                  Adicionar À Lista De Desejos
-                </button>
+                <><button className="w-full py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="inline h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                      Adicionar À Lista De Desejos
+                    </button>
+                    <div className="flex flex-col items-center justify-end"> 
+                    <img
+                          src={course.instructorImage || doctorProfile}
+                          alt={course.instructor}
+                          className="w-16 h-16 rounded-full object-cover mt-10 border-1 border-transparent bg-gradient-to-br from-[#DEA54B]/90 to-[#D27D2D]/80 p-1" />
+                        <div className="text-center">
+                          <h3 className="text-lg font-bold text-gray-900">{course.instructor}</h3>
+                          <p className="text-sm text-gray-600">{course.instructorBio || 'Especialista em Osteopatia Pediátrica'}</p>
+                        </div>
+                      </div>
+                      </>
               )}
               {enrolled && (
                 <div className="mt-4">
@@ -360,7 +374,7 @@ const CourseDetailPage = () => {
                           </h4>
                           <div className="p-2 text-gray-400">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c1.657 0 3-1.343 3-3V6a3 3 0 10-6 0v2c0 1.657 1.343 3 3 3zm-4 0v2a4 4 0 108 0v-2" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c1.657 0 3-1.343 3-3V6a3 3 0 10-6 0v2c0 1.657 1.343 3 3 3zm-4 0v2a4 4 4 0 108 0v-2" />
                             </svg>
                           </div>
                         </div>
