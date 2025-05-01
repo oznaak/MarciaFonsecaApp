@@ -12,4 +12,10 @@ router.post('/login', authController.login);
 // Get current user (optional auth)
 router.get('/me', authOptional, authController.getCurrentUser);
 
-module.exports = router; 
+// Mark lesson as complete
+router.post('/mark-complete', authOptional, authController.markLessonComplete);
+
+// Mark lesson as not complete
+router.post('/mark-not-complete', authOptional, authController.markLessonNotComplete);
+
+module.exports = router;

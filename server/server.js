@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/mern-app'
 // Import auth and course routes
 const authRoutes = require('./routes/authRoutes');
 const courseRoutes = require('./routes/courseRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // Basic route
 app.get('/', (req, res) => {
@@ -30,6 +31,11 @@ app.get('/', (req, res) => {
 // Mount auth and course API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
+
+// Mount admin API routes (requires authentication and admin)
+const { authRequired } = require('./middleware/auth');
+const { adminRequired } = require('./middleware/admin');
+app.use('/api/admin', authRequired, adminRequired, adminRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

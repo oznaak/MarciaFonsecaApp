@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 exports.getCourses = async (req, res) => {
   try {
     const courses = await Course.find()
-      .select('title description rating price discount previousPrice thumbnail')
+      .select('title description rating price discount previousPrice thumbnail studentDescription')
       .lean();
     const formatted = courses.map(c => ({
       id: c._id,
@@ -15,7 +15,8 @@ exports.getCourses = async (req, res) => {
       price: c.price,
       discount: c.discount,
       previousPrice: c.previousPrice,
-      thumbnail: c.thumbnail
+      thumbnail: c.thumbnail,
+      studentDescription: c.studentDescription
     }));
     res.json(formatted);
   } catch (err) {
@@ -44,8 +45,8 @@ exports.getCourseById = async (req, res) => {
 // Create a new course
 exports.createCourse = async (req, res) => {
   try {
-    const { title, description, rating, price, discount, previousPrice, lessons, thumbnail, instructor } = req.body;
-    const newCourse = new Course({ title, description, rating, price, discount, previousPrice, lessons, thumbnail, instructor });
+    const { title, description, studentDescription, rating, price, discount, previousPrice, lessons, thumbnail, instructor } = req.body;
+    const newCourse = new Course({ title, description, studentDescription, rating, price, discount, previousPrice, lessons, thumbnail, instructor });
     const saved = await newCourse.save();
     res.status(201).json({ id: saved._id, ...saved.toObject() });
   } catch (err) {
