@@ -11,14 +11,14 @@ const HomePage = () => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative min-h-screen bg-gradient-to-br from-[#DEA54B]/70 to-[#D27D2D]/60 text-white overflow-hidden mt-20">
+      <section className="relative min-h-screen bg-gradient-to-br from-[#DEA54B]/70 to-[#D27D2D]/60 text-white overflow-hidden mt-4">
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: `url("${patternSvg}")`, opacity: 0.1 }} />
         
         <motion.div initial="hidden" animate="visible" variants={fadeIn} transition={{ duration: 0.6 }} className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-[calc(100vh-5rem)] flex items-center">
           <div className="grid md:grid-cols-2 gap-12 items-center w-full">
             <div className="text-center md:text-left space-y-8">
               <span className="inline-block bg-white/15 backdrop-blur-sm px-6 py-2 rounded-full text-sm border border-white/10">
-              Osteopata especializada em pediatria
+              Osteopata Especializada em Pediatria
               </span>
               
               <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">

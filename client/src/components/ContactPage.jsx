@@ -40,7 +40,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-44">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* 3D Background Element */}
         <div className="absolute top-0 right-0 w-1/2 h-full opacity-50 pointer-events-none">

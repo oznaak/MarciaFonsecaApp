@@ -4,6 +4,121 @@ import doctorProfile from '../images/doctor-profile.jpg';
 import LoadingSpinner from './LoadingSpinner';
 import ReactPlayer from 'react-player';
 
+const RatingForm = ({ courseId, onRatingAdded, existingRating, onRemoveRating }) => {
+  const [value, setValue] = useState(existingRating?.value || 5);
+  const [comment, setComment] = useState(existingRating?.comment || '');
+  const [hoverValue, setHoverValue] = useState(0);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    if (!token) return alert('Você precisa estar logado para avaliar este curso.');
+
+    try {
+      const res = await fetch(`/api/courses/${courseId}/ratings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ value, comment }),
+      });
+
+      if (!res.ok) throw new Error('Falha ao enviar avaliação');
+      window.location.reload(); // Refresh the page after successful submission
+    } catch (err) {
+      console.error(err);
+      alert('Falha ao enviar avaliação');
+    }
+  };
+
+  const handleRemove = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return alert('Você precisa estar logado para remover sua avaliação.');
+
+    try {
+      const res = await fetch(`/api/courses/${courseId}/ratings/${existingRating._id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) throw new Error('Falha ao remover avaliação');
+      onRemoveRating(existingRating._id);
+    } catch (err) {
+      console.error(err);
+      alert('Falha ao remover avaliação');
+    }
+  };
+
+  if (existingRating) {
+    return (
+      <div className="space-y-4 bg-white p-6 rounded-lg shadow-md">
+        <div>
+          <p className='font-bold text-sm'>{existingRating.user.name}</p>
+        </div>
+        <div className="flex items-center space-x-2">
+          <p className="text-yellow-500">{'⭐'.repeat(existingRating.value)}</p>
+        </div>
+        <div>
+          <p className="text-gray-600">{existingRating.comment}</p>
+        </div>
+        <button
+          onClick={handleRemove}
+          className="w-full py-3 bg-gradient-to-br from-[#DEA54B]/90 to-[#D27D2D]/80 text-white rounded-lg font-semibold shadow hover:opacity-90 transition-all"
+        >
+          Remover Avaliação
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6 mt-8 bg-white p-6 rounded-lg shadow-md">
+      <h3 className="text-xl font-bold text-gray-900 flex items-center space-x-2">
+        <span>📝</span>
+        <span>Deixe a sua opinião sobre esta formação</span>
+      </h3>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Nota</label>
+        <div className="flex space-x-1">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <svg
+              key={star}
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-8 w-8 cursor-pointer ${star <= (hoverValue || value) ? 'text-yellow-500' : 'text-gray-300'}`}
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              onMouseEnter={() => setHoverValue(star)}
+              onMouseLeave={() => setHoverValue(0)}
+              onClick={() => setValue(star)}
+            >
+              <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.869 1.4-8.168L.132 9.21l8.2-1.192z" />
+            </svg>
+          ))}
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Comentário</label>
+        <textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          rows={4}
+          placeholder="Escreva seu comentário aqui..."
+        />
+      </div>
+      <button
+        type="submit"
+        className="w-full py-3 bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-lg font-semibold shadow hover:opacity-90 transition-all"
+      >
+        Enviar Avaliação
+      </button>
+    </form>
+  );
+};
+
 const CourseDetailPage = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
@@ -305,7 +420,7 @@ const CourseDetailPage = () => {
                           moveToNextLesson();
                         }
                       }}
-                      className={`mt-4 py-2 px-4 rounded-md text-right ${completedLessons.includes(course.lessons[selectedLesson]?._id) ? 'bg-gray-500 text-white' : 'bg-green-500 text-white'}`}
+                      className={`mt-4 py-2 px-4 rounded-md text-right ${completedLessons.includes(course.lessons[selectedLesson]?._id) ? 'bg-gray-500 text-white' : 'bg-gradient-to-br from-[#DEA54B]/90 to-[#D27D2D]/80 text-white'}`}
                     >
                       {completedLessons.includes(course.lessons[selectedLesson]?._id) ? 'Anular' : 'Completar aula'}
                     </button>
@@ -338,6 +453,12 @@ const CourseDetailPage = () => {
                   : 'text-gray-500'}`}
               >
                 {enrolled ? 'Aula' : 'Aulas'}
+              </button>
+              <button
+                onClick={() => setActiveTab('comments')}
+                className={`pb-2 ${activeTab === 'comments' ? 'border-b-2 border-blue-600 font-semibold' : 'text-gray-500'}`}
+              >
+                Comentários
               </button>
             </div>
             <div className="mt-6">
@@ -385,6 +506,49 @@ const CourseDetailPage = () => {
                         )}
                       </div>
                     ))
+                  )}
+                </div>
+              )}
+              {activeTab === 'comments' && (
+                <div className="mt-6">
+                  {enrolled && (
+                    <div className="mb-8">
+                      <RatingForm
+                        courseId={id}
+                        existingRating={course.ratings.find((rating) => rating.user._id === user._id)}
+                        onRatingAdded={(newRatings) => setCourse({ ...course, ratings: newRatings })}
+                        onRemoveRating={(removedRatingId) =>
+                          setCourse({
+                            ...course,
+                            ratings: course.ratings.filter((rating) => rating._id !== removedRatingId),
+                          })
+                        }
+                      />
+                    </div>
+                  )}
+                  {course.ratings && course.ratings.length > 0 ? (
+                    <div>
+                      <ul className="space-y-4 mt-4">
+                        {course.ratings.map((rating) => (
+                          <li key={rating._id} className="border p-6 rounded-lg shadow-md bg-gradient-to-br from-gray-50 to-white">
+                            <div className="flex items-center space-x-4">
+                              <div className="flex-shrink-0">
+                                <div className="w-10 h-10 bg-gradient-to-br from-[#DEA54B]/90 to-[#D27D2D]/80 text-white rounded-full flex items-center justify-center font-bold">
+                                  {rating.user?.name?.charAt(0).toUpperCase() || ''}
+                                </div>
+                              </div>
+                              <div>
+                                <p className="font-bold text-lg text-gray-800">{rating.user.name}</p>
+                                <p className="text-yellow-500">{'⭐'.repeat(rating.value)}</p>
+                              </div>
+                            </div>
+                            <p className="mt-4 text-gray-600">{rating.comment}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 text-center mt-4">😔 Nenhum comentário ainda. Seja o primeiro a comentar!</p>
                   )}
                 </div>
               )}

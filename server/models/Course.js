@@ -9,6 +9,13 @@ const LessonSchema = new mongoose.Schema({
   order: { type: Number, default: 0 }
 });
 
+// Rating schema for individual user ratings
+const RatingSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  value: { type: Number, required: true, min: 1, max: 5 },
+  comment: { type: String },
+});
+
 // Course schema
 const CourseSchema = new mongoose.Schema({
   instructor: { type: String, required: true },
@@ -21,6 +28,7 @@ const CourseSchema = new mongoose.Schema({
   discount: { type: Number, default: 0 },
   duration: { type: Number, default: 0 },
   lessons: [LessonSchema],
+  ratings: [RatingSchema],
   enrolledStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   createdAt: { type: Date, default: Date.now }
 });

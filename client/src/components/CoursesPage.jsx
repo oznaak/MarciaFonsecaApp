@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import doctorProfile from '../images/doctor-profile.jpg';
 import LoadingSpinner from './LoadingSpinner';
 
+const calculateAverageRating = (ratings) => {
+  if (!ratings || ratings.length === 0) return 0;
+  const total = ratings.reduce((sum, rating) => sum + (rating.value || 0), 0);
+  return total / ratings.length;
+};
+
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -89,17 +95,19 @@ const CoursesPage = () => {
                           <svg
                             key={index}
                             xmlns="http://www.w3.org/2000/svg"
-                            className={`h-4 w-4 ${index < Math.floor(course.rating) ? 'text-yellow-400' : 'text-gray-400'}`}
+                            className={`h-4 w-4 ${index < Math.floor(calculateAverageRating(course.ratings)) ? 'text-yellow-400' : 'text-gray-400'}`}
                             fill="currentColor"
                             viewBox="0 0 24 24"
                           >
                             <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.869 1.4-8.168L.132 9.21l8.2-1.192z" />
                           </svg>
                         ))}
-                        <span className="text-sm text-gray-500 ml-1">({course.rating.toFixed(1)})</span>
+                        <span className="text-sm text-gray-500 ml-1">({calculateAverageRating(course.ratings).toFixed(1)})</span>
                       </div>
                     </div>
                   </div>
+                  {console.log('Course Ratings:', course.ratings)}
+                  {console.log('Calculated Average Rating:', calculateAverageRating(course.ratings))}
                 </div>
               </Link>
             ))}

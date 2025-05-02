@@ -8,7 +8,7 @@ const fadeIn = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
 
 const AboutPage = () => {
   return (
-    <div className="w-full mt-20">
+    <div className="w-full mt-12">
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-[#DEA54B]/10 to-[#D27D2D]/5">
         <motion.div initial="hidden" animate="visible" variants={fadeIn} transition={{ duration: 0.6 }} className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
