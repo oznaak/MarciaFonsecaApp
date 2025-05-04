@@ -18,4 +18,4 @@ router.post('/users/:id/admin', authRequired, adminRequired, adminController.set
 // Stats
 router.get('/stats', authRequired, adminRequired, adminController.getStats);
 
-module.exports = router; 
+module.exports = router;

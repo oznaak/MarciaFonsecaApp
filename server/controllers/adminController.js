@@ -28,9 +28,15 @@ exports.createCourse = async (req, res) => {
 
 exports.updateCourse = async (req, res) => {
   try {
-    const course = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!course) return res.status(404).json({ error: 'Course not found' });
-    res.json(course);
+    const courseId = req.params.id;
+    const updatedData = req.body;
+
+    const updatedCourse = await Course.findByIdAndUpdate(courseId, updatedData, { new: true });
+    if (!updatedCourse) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+
+    res.json(updatedCourse);
   } catch (err) {
     console.error('Error updating course:', err);
     res.status(500).json({ error: 'Failed to update course' });
@@ -107,4 +113,4 @@ exports.getStats = async (req, res) => {
     console.error('Error fetching stats:', err);
     res.status(500).json({ error: 'Failed to fetch stats' });
   }
-}; 
+};

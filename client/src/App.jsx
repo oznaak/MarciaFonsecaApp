@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import HomePage from './components/HomePage';
 import AboutPage from './components/AboutPage';
@@ -18,6 +18,12 @@ import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import './styles/App.css';
 
 const App = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location]);
+
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       <Navigation />

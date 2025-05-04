@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import doctorProfile from '../images/doctor-profile.jpg';
 import { motion } from 'framer-motion';
-
+import amparoLogo from '../images/amparologo.png';
+import bfLogo from '../images/BF-clinic-logo-website.png';
+import fisioTrim from '../images/logo-header.png';
 // Animation variants
 const fadeIn = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
 
@@ -170,24 +172,24 @@ const AboutPage = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-24 h-24 mx-auto bg-[#DEA54B]/10 rounded-full flex items-center justify-center mb-4">
-                <span className="text-[#DEA54B] font-bold">HP</span>
+                <img src={amparoLogo} alt="" className='max-w-20'/>
               </div>
-              <h3 className="font-semibold text-gray-900">Hospital Pediátrico</h3>
-              <p className="text-gray-500 text-sm">São Paulo, SP</p>
+              <h3 className="font-semibold text-gray-900">Amparo Maternal</h3>
+              <p className="text-gray-500 text-sm">Paredes, Porto</p>
             </div>
             <div className="text-center">
-              <div className="w-24 h-24 mx-auto bg-[#DEA54B]/10 rounded-full flex items-center justify-center mb-4">
-                <span className="text-[#DEA54B] font-bold">CO</span>
+            <div className="w-24 h-24 mx-auto bg-[#DEA54B]/10 rounded-full flex items-center justify-center mb-4">
+                <img src={bfLogo} alt="" className='max-w-20'/>
               </div>
-              <h3 className="font-semibold text-gray-900">Clínica Osteopática</h3>
-              <p className="text-gray-500 text-sm">Rio de Janeiro, RJ</p>
+              <h3 className="font-semibold text-gray-900">BFisio Clinic</h3>
+              <p className="text-gray-500 text-sm">Sobreira, Paredes</p>
             </div>
             <div className="text-center">
-              <div className="w-24 h-24 mx-auto bg-[#DEA54B]/10 rounded-full flex items-center justify-center mb-4">
-                <span className="text-[#DEA54B] font-bold">UM</span>
+            <div className="w-24 h-24 mx-auto bg-[#DEA54B]/10 rounded-full flex items-center justify-center mb-4">
+                <img src={fisioTrim} alt="" className='max-w-20'/>
               </div>
-              <h3 className="font-semibold text-gray-900">Universidade de Medicina</h3>
-              <p className="text-gray-500 text-sm">São Paulo, SP</p>
+              <h3 className="font-semibold text-gray-900">Fisiotrimtrim</h3>
+              <p className="text-gray-500 text-sm">Maia, Porto</p>
             </div>
           </div>
         </motion.div>
