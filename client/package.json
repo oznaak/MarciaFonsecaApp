@@ -35,7 +35,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "cp -r build ../server/client-build",
+    "postbuild": "cp -r dist ../server/client-build",
     "start": "react-scripts start",
     "preview": "vite preview",
     "test": "react-scripts test",
