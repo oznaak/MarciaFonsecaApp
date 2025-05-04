@@ -14,10 +14,8 @@ const CoursesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log(process.env.REACT_APP_API_URL)
-
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/courses`)
+    fetch('/api/courses')
       .then((res) => {
         if (!res.ok) throw new Error(`Error: ${res.status}`);
         return res.json();
