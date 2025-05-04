@@ -26,3 +26,4 @@ client/node_modules/.bin/vite
 client/node_modules/.bin/vite.cmd
 client/node_modules/.bin/vite.ps1
 /server/node_modules
+/client/.env
