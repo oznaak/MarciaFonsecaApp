@@ -14,7 +14,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://marciafonsecaserver.onrender.com',
+        target: 'https://marciafonsecaserver.onrender.com/api',
         changeOrigin: true,
         secure: false,
       },
