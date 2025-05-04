@@ -12,13 +12,6 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    proxy: {
-      '/api': {
-        target: 'https://marciafonsecaserver.onrender.com/api',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
   },
   build: {
     rollupOptions: {
