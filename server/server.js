@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const path = require('path');
 
 const app = express();
 
@@ -36,6 +37,17 @@ app.use('/api/courses', courseRoutes);
 const { authRequired } = require('./middleware/auth');
 const { adminRequired } = require('./middleware/admin');
 app.use('/api/admin', authRequired, adminRequired, adminRoutes);
+
+// Serve static files from the React/Vite app build directory
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+  });
+}
 
 // Start server
 const PORT = process.env.PORT || 5000;

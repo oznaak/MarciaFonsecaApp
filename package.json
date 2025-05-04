@@ -1,0 +1,12 @@
+{
+    "name": "mern-app",
+    "version": "1.0.0",
+    "description": "MERN application",
+    "engines": {
+      "node": ">=14.0.0"
+    },
+    "scripts": {
+      "build": "node render-build.js",
+      "start": "cd server && node index.js"
+    }
+  }
