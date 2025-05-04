@@ -13,10 +13,9 @@ const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
 
   useEffect(() => {
-    fetch(`${process.env.VITE_API_BASE_URL}/api/courses`)
+    fetch('/api/courses')
       .then((res) => {
         if (!res.ok) throw new Error(`Error: ${res.status}`);
         return res.json();
